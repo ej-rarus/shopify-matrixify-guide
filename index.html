@@ -1418,12 +1418,16 @@ MERGE,author,jk-rowling,J.K. 롤링,해리포터 시리즈 작가</textarea>
                 lesson.style.display = lessonData === lessonNum ? 'block' : 'none';
             });
 
-            // 첫 페이지: 이전 버튼 숨기기
+            const navigation = document.querySelector('.navigation');
+
+            // 첫 페이지: 이전 버튼 숨기고 다음 버튼 오른쪽 정렬
             if (lessonNum === 0) {
                 document.getElementById('prevBtn').style.display = 'none';
+                navigation.style.justifyContent = 'flex-end';
             } else {
                 document.getElementById('prevBtn').style.display = 'inline-block';
                 document.getElementById('prevBtn').disabled = false;
+                navigation.style.justifyContent = 'space-between';
             }
 
             // 마지막 페이지: 다음 버튼 숨기고 처음으로 버튼 보이기
