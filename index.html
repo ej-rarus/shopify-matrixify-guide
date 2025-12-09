@@ -321,9 +321,124 @@
             font-weight: 600;
         }
 
+        /* 목차 내비게이션 */
+        .toc-nav {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1000;
+            width: 220px;
+        }
+
+        .toc-nav h3 {
+            font-size: 1em;
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #96fbc4;
+        }
+
+        .toc-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-nav li {
+            margin: 8px 0;
+        }
+
+        .toc-nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 0.9em;
+            display: block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .toc-nav a:hover {
+            background: #f0f0f0;
+            color: #2d3748;
+        }
+
+        .toc-nav a.active {
+            background: linear-gradient(135deg, #96fbc4 0%, #f9f586 100%);
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .toc-toggle {
+            display: none;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #2d3748;
+            border: 2px solid #96fbc4;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .restart-btn:hover {
+            background: linear-gradient(135deg, #96fbc4 0%, #f9f586 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 1400px) {
+            .toc-nav {
+                right: -240px;
+                transition: right 0.3s;
+            }
+
+            .toc-nav.open {
+                right: 10px;
+            }
+
+            .toc-toggle {
+                display: block;
+                position: fixed;
+                right: 20px;
+                top: 100px;
+                background: linear-gradient(135deg, #96fbc4 0%, #f9f586 100%);
+                color: #2d3748;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 25px 0 0 25px;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                z-index: 999;
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 10px;
+            }
+
+            .toc-nav {
+                width: 180px;
+                right: -200px;
+            }
+
+            .toc-nav.open {
+                right: 5px;
             }
 
             .header h1 {
@@ -381,6 +496,31 @@
     </style>
 </head>
 <body>
+    <!-- 목차 토글 버튼 (모바일용) -->
+    <button class="toc-toggle" onclick="toggleToc()">📑</button>
+
+    <!-- 목차 내비게이션 -->
+    <nav class="toc-nav" id="tocNav">
+        <h3>📚 목차</h3>
+        <ul>
+            <li><a href="#" onclick="goToLesson(0); return false;" data-lesson="0">0. 시작하기 전에</a></li>
+            <li><a href="#" onclick="goToLesson(1); return false;" data-lesson="1">1. 메타 오브젝트란?</a></li>
+            <li><a href="#" onclick="goToLesson(2); return false;" data-lesson="2">2. 데이터 구조 설계</a></li>
+            <li><a href="#" onclick="goToLesson(3); return false;" data-lesson="3">3. 워크플로우 개요</a></li>
+            <li><a href="#" onclick="goToLesson(4); return false;" data-lesson="4">4. 템플릿 확보</a></li>
+            <li><a href="#" onclick="goToLesson(5); return false;" data-lesson="5">5. 데이터 정리</a></li>
+            <li><a href="#" onclick="goToLesson(6); return false;" data-lesson="6">6. 업로드 & 적용</a></li>
+            <li><a href="#" onclick="goToLesson(7); return false;" data-lesson="7">7. 에러 해결</a></li>
+            <li><a href="#" onclick="goToLesson(8); return false;" data-lesson="8">8. CSV 검증</a></li>
+            <li><a href="#" onclick="goToLesson(9); return false;" data-lesson="9">9. Best Practices</a></li>
+            <li><a href="#" onclick="goToLesson(10); return false;" data-lesson="10">10. 완료!</a></li>
+        </ul>
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0; text-align: center;">
+            <p style="font-size: 0.85em; color: #999; margin: 5px 0;">Made with ❤️ by</p>
+            <p style="font-size: 0.9em; color: #2d3748; font-weight: 600; margin: 5px 0;">@루쿠쿠 이은재 Tony</p>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="progress-bar">
             <div class="progress-fill" id="progressBar"></div>
@@ -1246,7 +1386,10 @@ MERGE,author,jk-rowling,J.K. 롤링,해리포터 시리즈 작가</textarea>
                 </div>
 
                 <div style="text-align: center; margin-top: 40px;">
-                    <p style="font-size: 1.2em; color: #2d3748;">
+                    <button onclick="goToLesson(0)" class="restart-btn">
+                        🔄 처음부터 다시 보기
+                    </button>
+                    <p style="font-size: 1.2em; color: #2d3748; margin-top: 20px;">
                         Happy Shopify-ing! 🛍️✨
                     </p>
                 </div>
@@ -1256,6 +1399,7 @@ MERGE,author,jk-rowling,J.K. 롤링,해리포터 시리즈 작가</textarea>
         <div class="navigation">
             <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>← 이전</button>
             <button class="nav-btn" id="nextBtn" onclick="navigate(1)">다음 →</button>
+            <button class="nav-btn" id="restartBtn" onclick="goToLesson(0)" style="display: none;">🔄 처음으로</button>
         </div>
     </div>
 
@@ -1270,19 +1414,54 @@ MERGE,author,jk-rowling,J.K. 롤링,해리포터 시리즈 작가</textarea>
                 lesson.style.display = lessonData === lessonNum ? 'block' : 'none';
             });
 
-            document.getElementById('prevBtn').disabled = lessonNum === 0;
-            document.getElementById('nextBtn').disabled = lessonNum === totalLessons;
+            // 첫 페이지: 이전 버튼 숨기기
+            if (lessonNum === 0) {
+                document.getElementById('prevBtn').style.display = 'none';
+            } else {
+                document.getElementById('prevBtn').style.display = 'inline-block';
+                document.getElementById('prevBtn').disabled = false;
+            }
 
+            // 마지막 페이지: 다음 버튼 숨기고 처음으로 버튼 보이기
             if (lessonNum === totalLessons) {
                 document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('restartBtn').style.display = 'inline-block';
             } else {
                 document.getElementById('nextBtn').style.display = 'inline-block';
+                document.getElementById('restartBtn').style.display = 'none';
             }
 
             const progress = (lessonNum / totalLessons) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
 
+            // 목차 활성화 상태 업데이트
+            updateTocActive(lessonNum);
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateTocActive(lessonNum) {
+            const tocLinks = document.querySelectorAll('.toc-nav a');
+            tocLinks.forEach(link => {
+                if (parseInt(link.dataset.lesson) === lessonNum) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        function goToLesson(lessonNum) {
+            currentLesson = lessonNum;
+            showLesson(lessonNum);
+            // 모바일에서는 목차 닫기
+            if (window.innerWidth <= 1400) {
+                document.getElementById('tocNav').classList.remove('open');
+            }
+        }
+
+        function toggleToc() {
+            document.getElementById('tocNav').classList.toggle('open');
         }
 
         function navigate(direction) {
